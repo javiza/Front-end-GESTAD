@@ -1,0 +1,18 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Ingresos</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()">Salir</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar color="primary">
+  <ion-segment [(ngModel)]="activeSegment" (ionChange)="segmentChanged($event)" scrollable>
+    <ion-segment-button value="home">Home</ion-segment-button>
+    <ion-segment-button value="unidad">Unidad</ion-segment-button>
+    <ion-segment-button value="lavanderia">Lavandería</ion-segment-button>
+    <ion-segment-button value="bajas-reparaciones">Bajas y reparaciones</ion-segment-button>
+    <ion-segment-button value="inventarios">Inventarios</ion-segment-button>
+  </ion-segment>
+</ion-toolbar>
+

@@ -1,0 +1,28 @@
+.form-container {
+  //background-color: #2e2e2e; // gris oscuro
+//   padding: 20px;
+  border-radius: 10px;
+//   margin: 20px; // separación externa
+}
+
+.titulo {
+  text-align: center;
+  color: rgb(43, 42, 42);
+}
+
+.subtitulo {
+  text-align: center;
+  color: #7e7d7d; // gris claro
+  margin-bottom: 20px;
+}
+
+.custom-item {
+  margin-bottom: 20px; // más separación entre campos
+}
+
+ion-label {
+  color: #007bff !important; // azul para el texto del label
+}
+ion-input {
+  color: #38393a !important; // azul para el texto del input
+}

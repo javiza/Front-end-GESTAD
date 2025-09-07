@@ -21,7 +21,6 @@
     "@angular/platform-browser": "^18.2.7",
     "@angular/platform-browser-dynamic": "^18.2.7",
     "@angular/router": "^18.2.7",
-    "@capacitor-community/sqlite": "^6.0.2",
     "@capacitor/android": "^6.1.2",
     "@capacitor/app": "^6.0.1",
     "@capacitor/core": "^6.1.2",
@@ -33,7 +32,7 @@
     "@ionic/angular": "^7.5.0",
     "@ionic/pwa-elements": "^3.2.2",
     "ionicons": "^7.2.1",
-    "jeep-sqlite": "^2.8.0",
+    "jwt-decode": "^4.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.10"
