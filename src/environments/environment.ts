@@ -5,9 +5,13 @@
 // export const environment = {
 //   production: false
 // };
+// export const environment = {
+//   production: false,
+//   apiUrl: (window as any).__env?.API_URL || 'http://localhost:3000',
+// };
 export const environment = {
-  production: false,
-  apiUrl: (window as any).__env?.API_URL || 'http://localhost:3000',
+  production: true,
+  apiUrl: (window as any).__env?.API_URL || 'https://backe-end-gestad.onrender.com',
 };
 
 /*

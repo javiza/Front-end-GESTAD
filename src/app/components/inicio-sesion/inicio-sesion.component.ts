@@ -21,6 +21,7 @@ import {
   eyeOutline,
   eyeOffOutline,
 } from 'ionicons/icons';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-inicio-sesion',
@@ -28,6 +29,7 @@ import {
   styleUrls: ['./inicio-sesion.component.scss'],
   standalone: true,
   imports: [
+    CommonModule,
     IonIcon,
     FormsModule,
     IonContent,
