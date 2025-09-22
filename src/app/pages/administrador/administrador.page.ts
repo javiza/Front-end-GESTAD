@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { IngresoUsuarioComponent } from 'src/app/components/ingreso-usuario/ingreso-usuario.component';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -9,11 +10,11 @@ import {
   IonToolbar,
   IonButton,
   IonButtons,
-  IonSegmentButton
+  IonSegmentButton,
 } from '@ionic/angular/standalone';
 import { NavController } from '@ionic/angular';
-import { addIcons } from 'ionicons';
-import { settingsOutline } from 'ionicons/icons';
+import { Router, NavigationEnd } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-administrador',
@@ -30,27 +31,38 @@ import { settingsOutline } from 'ionicons/icons';
     IonTitle,
     IonToolbar,
     CommonModule,
-    FormsModule
-  ]
+    FormsModule,
+    IngresoUsuarioComponent
+  ],
 })
-export class AdministradorPage implements OnInit {
+export class AdministradorPage implements OnInit, OnDestroy {
   activeSegment: string = 'home';
+  routerSub!: Subscription;
 
-  constructor(private navCtrl: NavController) {
-    // Registrar iconos una sola vez
-    addIcons({ settingsOutline });
-  }
+  constructor(private navCtrl: NavController, private router: Router) {}
 
   ngOnInit(): void {
-    console.log('AdministradorPage cargado');
+    this.routerSub = this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        const url = event.urlAfterRedirects;
+        if (url.includes('inventario')) this.activeSegment = 'inventario';
+
+        else if (url.includes('administrador')) this.activeSegment = 'administrador';
+        else if (url.includes('home')) this.activeSegment = 'home';
+      }
+    });
   }
 
-  ionViewWillEnter(): void {
-    console.log('AdministradorPage::ionViewWillEnter');
+  ngOnDestroy(): void {
+    if (this.routerSub) this.routerSub.unsubscribe();
+  }
+
+  segmentChanged(event: any) {
+    const value = event.detail.value;
+    this.navCtrl.navigateForward('/' + value);
   }
 
   logout() {
-    // Limpiar token y redirigir al login
     localStorage.removeItem('token');
     this.navCtrl.navigateRoot('/home');
   }

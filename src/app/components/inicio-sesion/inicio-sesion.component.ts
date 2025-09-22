@@ -7,64 +7,90 @@ import {
   IonInput,
   IonButton,
   IonText,
-  IonSpinner
+  IonSpinner,
+  IonIcon,
 } from '@ionic/angular/standalone';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+
+// 👇 Importamos addIcons e íconos específicos
+import { addIcons } from 'ionicons';
+import {
+  mailOutline,
+  lockClosedOutline,
+  eyeOutline,
+  eyeOffOutline,
+} from 'ionicons/icons';
 
 @Component({
   selector: 'app-inicio-sesion',
   templateUrl: './inicio-sesion.component.html',
   styleUrls: ['./inicio-sesion.component.scss'],
   standalone: true,
-  imports: [FormsModule, IonContent, IonItem, IonLabel, IonInput, IonButton, IonText, IonSpinner],
+  imports: [
+    IonIcon,
+    FormsModule,
+    IonContent,
+    IonItem,
+    IonLabel,
+    IonInput,
+    IonButton,
+    IonText,
+    IonSpinner,
+  ],
 })
 export class InicioSesionComponent implements OnInit {
   email = '';
   password = '';
   loading = false;
   errorMessage = '';
+  showPassword = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {
+    // 👇 Registramos los íconos para que funcionen en la plantilla
+    addIcons({
+      mailOutline,
+      lockClosedOutline,
+      eyeOutline,
+      eyeOffOutline,
+    });
+  }
 
   ngOnInit() {
     console.log('InicioSesionComponent cargado');
-    this.resetForm(); // limpia email, password y errorMessage
+    this.resetForm();
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 
   login() {
-  this.loading = true;
-  this.errorMessage = '';
+    this.loading = true;
+    this.errorMessage = '';
 
-  this.authService.login(this.email, this.password).subscribe({
-    next: (res) => {
-      // Guardar token
-      localStorage.setItem('token', res.access_token);
-      this.loading = false;
+    this.authService.login(this.email, this.password).subscribe({
+      next: (res) => {
+        localStorage.setItem('token', res.access_token);
+        this.loading = false;
+        this.resetForm();
 
-      // Limpiar formulario antes de navegar
-      this.resetForm();
+        if (res.user.rol === 'administrador') {
+          this.router.navigate(['/administrador'], { replaceUrl: true });
+        } else if (res.user.rol === 'usuario') {
+          this.router.navigate(['/ingresos'], { replaceUrl: true });
+        } else {
+          this.router.navigate(['/home'], { replaceUrl: true });
+        }
+      },
+      error: (err) => {
+        console.error('Error en login:', err);
+        this.errorMessage = 'Usuario o contraseña incorrectos';
+        this.loading = false;
+      },
+    });
+  }
 
-      // Redirigir según rol y reemplazar URL para que "atrás" no vuelva al login
-      if (res.user.rol === 'administrador') {
-        this.router.navigate(['/administrador'], { replaceUrl: true });
-      } else if (res.user.rol === 'usuario') {
-        this.router.navigate(['/ingresos'], { replaceUrl: true });
-      } else {
-        this.router.navigate(['/home'], { replaceUrl: true });
-      }
-    },
-    error: (err) => {
-      console.error('Error en login:', err);
-      this.errorMessage = 'Usuario o contraseña incorrectos';
-      this.loading = false;
-    },
-  });
-}
-
-
-
-  // Método público para llamar desde otro componente
   public resetForm() {
     this.email = '';
     this.password = '';

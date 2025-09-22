@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Administrador</ion-title>
+    <ion-title>Movimientos</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="logout()">Salir</ion-button>
     </ion-buttons>
@@ -9,15 +9,19 @@
   <ion-toolbar color="primary">
     <ion-segment [(ngModel)]="activeSegment" (ionChange)="segmentChanged($event)" scrollable>
       <ion-segment-button value="home">Home</ion-segment-button>
-      <ion-segment-button value="administrador">Administrador</ion-segment-button>
-      <ion-segment-button value="inventario">inventario</ion-segment-button>
+      <ion-segment-button value="ingresos">Ingresos</ion-segment-button>
+      <ion-segment-button value="movimientos">Movimientos</ion-segment-button>
+      <ion-segment-button value="inventarios">Inventarios</ion-segment-button>
     </ion-segment>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div class="center-content">
-    <!-- Aquí se carga el formulario de ingreso usuario -->
-    <app-ingreso-usuario></app-ingreso-usuario>
-  </div>
+ 
+ <div class="center-content">
+ <app-prenda></app-prenda>
+ </div>
+   
+  
 </ion-content>
+

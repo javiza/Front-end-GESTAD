@@ -19,9 +19,9 @@ import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-ingresos',
-  templateUrl: './ingresos.page.html',
-  styleUrls: ['./ingresos.page.scss'],
+  selector: 'app-movimientos',
+  templateUrl: './movimientos.page.html',
+  styleUrls: ['./movimientos.page.scss'],
   standalone: true,
   imports: [
     IonContent,
@@ -37,25 +37,25 @@ import { Subscription } from 'rxjs';
     PrendaComponent,
   ],
 })
-export class IngresosPage implements OnInit, OnDestroy {
+export class MovimientosPage implements OnInit, OnDestroy {
   activeSegment: string = 'home';
   routerSub!: Subscription;
 
   constructor(private navCtrl: NavController, private router: Router) {}
 
   ngOnInit(): void {
-    console.log('IngresosPage cargado');
+    console.log('MovimientosPage cargado');
 
     this.routerSub = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         const url = event.urlAfterRedirects;
 
-        if (url.includes('movimientos')) this.activeSegment = 'movimientos';
+        if (url.includes('ingresos')) this.activeSegment = 'ingresos';
       
         else if (url.includes('inventarios'))
           this.activeSegment = 'inventarios';
-        else if (url.includes('ingresos'))
-          this.activeSegment = 'ingresos'; 
+        else if (url.includes('movimientos'))
+          this.activeSegment = 'movimientos'; 
         else this.activeSegment = 'home';
       }
     });

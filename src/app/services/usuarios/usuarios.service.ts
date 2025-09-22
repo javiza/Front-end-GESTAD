@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthService } from './auth.service';
+import { AuthService } from '../auth.service';
 
 export interface Usuario {
-  id: string;
+  id: number;
   nombre_usuario: string;
+  rut: string;                // agregar rut
   email: string;
   rol: 'administrador' | 'usuario';
-  activo: boolean;
+  // activo?: boolean;           // opcional porque backend lo maneja
+  fecha_creacion?: string;  
 }
+
 
 @Injectable({
   providedIn: 'root'
@@ -38,11 +41,11 @@ export class UsuariosService {
     return this.http.post<Usuario>(this.apiUrl, usuario, { headers: this.getHeaders() });
   }
 
-  update(id: string, usuario: Partial<Usuario>): Observable<Usuario> {
+  update(id: number, usuario: Partial<Usuario>): Observable<Usuario> {
     return this.http.put<Usuario>(`${this.apiUrl}/${id}`, usuario, { headers: this.getHeaders() });
   }
 
-  remove(id: string): Observable<void> {
+  remove(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
   }
 }
