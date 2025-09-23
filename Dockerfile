@@ -2,26 +2,26 @@
 FROM node:18-alpine AS builder
 WORKDIR /app
 
-# Copiar archivos de package y node_modules
+# Copiar dependencias e instalar
 COPY package*.json ./
 RUN npm install
 
 # Copiar todo el código fuente
 COPY . .
 
-# Build de producción con environment.prod.ts
+# Build de producción usando environment.prod.ts
 RUN npm run build -- --configuration production
 
 # Etapa 2: Servir con Nginx
 FROM nginx:alpine
 
 # Copiar build de Angular al directorio de Nginx
-COPY --from=builder /app/dist/roperia /usr/share/nginx/html
+COPY --from=builder /app/www /usr/share/nginx/html
 
 # Copiar configuración personalizada de Nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Exponer puerto
+# Exponer puerto HTTP
 EXPOSE 80
 
 # Ejecutar Nginx
