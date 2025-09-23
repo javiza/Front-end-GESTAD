@@ -16,7 +16,7 @@ RUN npm run build -- --configuration production
 FROM nginx:alpine
 
 # Copiar build de Angular al directorio de Nginx
-COPY --from=builder /app/www /usr/share/nginx/html
+COPY --from=builder /app/dist/roperia /usr/share/nginx/html
 
 # Copiar configuración personalizada de Nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
