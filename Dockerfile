@@ -1,4 +1,4 @@
-# Etapa 1: Build con Node
+# Etapa 1: Build de Angular
 FROM node:18-alpine AS builder
 WORKDIR /app
 
