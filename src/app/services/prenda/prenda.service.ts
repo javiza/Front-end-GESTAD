@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { AuthService } from '../auth.service';
+import { environment } from 'src/environments/environment';
 
 export interface Prenda {
   id_prenda: number;
@@ -17,7 +18,7 @@ export interface Prenda {
   providedIn: 'root',
 })
 export class PrendaService {
-  private apiUrl = 'http://localhost:3000/prendas';
+  private apiUrl = `${environment.apiUrl}/prendas`;
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
