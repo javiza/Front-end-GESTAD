@@ -16,12 +16,12 @@ export interface LoginResponse {
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3000/auth';
+  private apiUrl = 'http://localhost:3000/auth-user';
 
   constructor(private http: HttpClient) {}
 
   login(email: string, password: string): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, { email, password });
+    return this.http.post<LoginResponse>(`${this.apiUrl}/login-user`, { email, password });
   }
 
   // 👉 Guardar token + usuario en localStorage

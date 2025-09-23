@@ -37,7 +37,7 @@ export const routes: Routes = [
 
 
 
-  // 🔓 Home (no requiere guard, login libre)
+ 
   {
     path: 'home',
     loadComponent: () =>
