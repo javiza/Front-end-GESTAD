@@ -10,8 +10,8 @@
 //   apiUrl: (window as any).__env?.API_URL || 'http://localhost:3000',
 // };
 export const environment = {
-  production: true,
-  apiUrl: 'https://backe-end-gestad.onrender.com',
+  production: false,
+  apiUrl: 'http://localhost:3000'
 };
 
 
