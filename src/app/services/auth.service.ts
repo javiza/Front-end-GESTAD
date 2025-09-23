@@ -1,6 +1,8 @@
+import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
 
 export interface LoginResponse {
   access_token: string;
@@ -16,7 +18,7 @@ export interface LoginResponse {
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3000/auth-user';
+  private apiUrl = `${environment.apiUrl}/auth-user`; // <- usa environment
 
   constructor(private http: HttpClient) {}
 
@@ -24,7 +26,6 @@ export class AuthService {
     return this.http.post<LoginResponse>(`${this.apiUrl}/login-user`, { email, password });
   }
 
-  // 👉 Guardar token + usuario en localStorage
   saveSession(res: LoginResponse) {
     localStorage.setItem('token', res.access_token);
     localStorage.setItem('user', JSON.stringify(res.user));
@@ -47,13 +48,12 @@ export class AuthService {
   isLoggedIn(): boolean {
     return !!this.getToken();
   }
- getUserId(): number {
-  const token = this.getToken();
-  if (!token) return 0;
 
-  const payload = JSON.parse(atob(token.split('.')[1]));
-  return Number(payload.sub);   // conversion correcta
-}
+  getUserId(): number {
+    const token = this.getToken();
+    if (!token) return 0;
 
-
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return Number(payload.sub);
+  }
 }
