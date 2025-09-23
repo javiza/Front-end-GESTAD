@@ -11,8 +11,9 @@
 // };
 export const environment = {
   production: true,
-  apiUrl: (window as any).__env?.API_URL || 'https://backe-end-gestad.onrender.com',
+  apiUrl: 'https://backe-end-gestad.onrender.com',
 };
+
 
 /*
  * For easier debugging in development mode, you can import the following file
