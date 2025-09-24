@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Movimientos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <form [formGroup]="movimientoForm" (ngSubmit)="guardarMovimiento()">
+    <ion-item>
+      <ion-label position="floating">Tipo Movimiento</ion-label>
+      <ion-select formControlName="tipo_movimiento">
+        <ion-select-option value="roperia">Ropería</ion-select-option>
+        <ion-select-option value="lavanderia">Lavandería</ion-select-option>
+        <ion-select-option value="reproceso">Reproceso</ion-select-option>
+        <ion-select-option value="unidad_clinica">Unidad Clínica</ion-select-option>
+        <ion-select-option value="reparacion">Reparación</ion-select-option>
+        <ion-select-option value="baja">Baja</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Operación</ion-label>
+      <ion-select formControlName="operacion">
+        <ion-select-option value="entrada">Entrada</ion-select-option>
+        <ion-select-option value="salida">Salida</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Prenda ID</ion-label>
+      <ion-input type="number" formControlName="id_prenda"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Cantidad</ion-label>
+      <ion-input type="number" formControlName="cantidad"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Observación</ion-label>
+      <ion-input type="text" formControlName="observacion"></ion-input>
+    </ion-item>
+
+    <ion-button expand="block" type="submit" [disabled]="movimientoForm.invalid">
+      Guardar Movimiento
+    </ion-button>
+  </form>
+
+  <ion-list>
+    <ion-list-header>
+      Últimos movimientos
+    </ion-list-header>
+    <ion-item *ngFor="let mov of movimientos">
+      <ion-label>
+        <h2>{{ mov.tipo_movimiento | titlecase }} - {{ mov.operacion }}</h2>
+        <p>Prenda: {{ mov.id_prenda }} | Cantidad: {{ mov.cantidad }}</p>
+        <p>{{ mov.fecha | date:'short' }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

@@ -67,7 +67,9 @@ export class PrendaComponent implements OnInit {
   }
 
   ingresarPrenda() {
-  if (!this.nombre_prenda || !this.cantidad || !this.tipo || !this.peso) return;
+  if (!this.nombre_prenda || !this.cantidad || !this.tipo || !this.peso) {
+    return;
+  }
 
   const prendaData: Partial<Prenda> = {
     nombre: this.nombre_prenda,
