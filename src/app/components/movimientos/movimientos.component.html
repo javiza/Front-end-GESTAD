@@ -9,22 +9,24 @@
   <form [formGroup]="movimientoForm" (ngSubmit)="guardarMovimiento()">
     <ion-item>
       <ion-label position="floating">Tipo Movimiento</ion-label>
-      <ion-select formControlName="tipo_movimiento">
-        <ion-select-option value="roperia">Ropería</ion-select-option>
-        <ion-select-option value="lavanderia">Lavandería</ion-select-option>
-        <ion-select-option value="reproceso">Reproceso</ion-select-option>
-        <ion-select-option value="unidad_clinica">Unidad Clínica</ion-select-option>
-        <ion-select-option value="reparacion">Reparación</ion-select-option>
-        <ion-select-option value="baja">Baja</ion-select-option>
-      </ion-select>
+      <ion-select formControlName="tipo_movimiento" interface="alert">
+  <ion-select-option value="roperia">Ropería</ion-select-option>
+  <ion-select-option value="lavanderia">Lavandería</ion-select-option>
+  <ion-select-option value="reproceso">Reproceso</ion-select-option>
+  <ion-select-option value="unidad_clinica">Unidad Clínica</ion-select-option>
+  <ion-select-option value="reparacion">Reparación</ion-select-option>
+  <ion-select-option value="baja">Baja</ion-select-option>
+</ion-select>
+
     </ion-item>
 
     <ion-item>
       <ion-label position="floating">Operación</ion-label>
-      <ion-select formControlName="operacion">
-        <ion-select-option value="entrada">Entrada</ion-select-option>
-        <ion-select-option value="salida">Salida</ion-select-option>
-      </ion-select>
+      <ion-select formControlName="operacion" interface="popover">
+  <ion-select-option value="entrada">Entrada</ion-select-option>
+  <ion-select-option value="salida">Salida</ion-select-option>
+</ion-select>
+
     </ion-item>
 
     <ion-item>
