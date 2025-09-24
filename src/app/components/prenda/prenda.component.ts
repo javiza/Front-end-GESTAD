@@ -10,8 +10,7 @@ import {
   IonTextarea,
   IonSelect,
   IonSelectOption,
-  IonList,
-} from '@ionic/angular/standalone';
+  IonList, IonHeader, IonToolbar } from '@ionic/angular/standalone';
 import { PrendaService, Prenda } from '../../services/prenda/prenda.service';
 import { addIcons } from 'ionicons';
 import { createOutline, trashOutline } from 'ionicons/icons';
@@ -24,6 +23,8 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./prenda.component.scss'],
   standalone: true,
   imports: [
+    IonToolbar,
+    IonHeader, 
     FormsModule,
     CommonModule,
     IonContent,
