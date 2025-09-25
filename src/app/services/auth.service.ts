@@ -18,7 +18,7 @@ export interface LoginResponse {
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = `${environment.apiUrl}/auth-user`; // <- usa environment
+  private apiUrl = `${environment.apiUrl}/auth-user`; 
 
   constructor(private http: HttpClient) {}
 
