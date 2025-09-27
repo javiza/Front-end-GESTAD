@@ -1,0 +1,29 @@
+<h2>Inventario por Nombre</h2>
+
+  <!-- Barra de búsqueda -->
+  <ion-searchbar
+    [(ngModel)]="termino"
+    placeholder="Buscar por nombre de prenda..."
+    (ionInput)="buscar()">
+  </ion-searchbar>
+
+  <!-- Loader -->
+  <ion-spinner *ngIf="buscando" name="crescent"></ion-spinner>
+
+  <!-- Resultados -->
+  <ion-list *ngIf="resultados.length > 0">
+    <ion-item *ngFor="let r of resultados">
+      <ion-label>
+        <h2>{{ r.nombre }}</h2>
+        <p>
+          <strong>Tipo:</strong> {{ r.tipo_entidad }}
+          <span *ngIf="r.unidad"> ({{ r.unidad }})</span>
+        </p>
+        <p><strong>Cantidad:</strong> {{ r.cantidad }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <p *ngIf="!buscando && resultados.length === 0 && termino">
+    No se encontraron resultados para "{{ termino }}"
+  </p>

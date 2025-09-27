@@ -1,13 +1,31 @@
+
+
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>inventarios</ion-title>
+    <ion-title>Inventarios</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()">Salir</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar color="primary">
+    <ion-segment [(ngModel)]="activeSegment" (ionChange)="segmentChanged($event)" scrollable>
+      <ion-segment-button value="home">Home</ion-segment-button>
+      <ion-segment-button value="ingresos">Ingresos</ion-segment-button>
+      <ion-segment-button value="movimientos">Movimientos</ion-segment-button>
+      <ion-segment-button value="inventarios">Inventarios</ion-segment-button>
+    </ion-segment>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">inventarios</ion-title>
-    </ion-toolbar>
-  </ion-header>
+ 
+ <div class="center-content">
+  <app-inventario-componente></app-inventario-componente>
+    <app-inventario-nombre></app-inventario-nombre>
+ </div>
+  
+   
+  
 </ion-content>
+

@@ -1,0 +1,22 @@
+<h2>Inventario General</h2>
+
+  <ion-spinner *ngIf="cargando"></ion-spinner>
+
+  <ion-list *ngIf="!cargando && prendas.length > 0">
+    <ion-item *ngFor="let prenda of prendas">
+      <ion-label>
+        <h2>{{ prenda.nombre }} ({{ prenda.peso }} kg)</h2>
+        <p>{{ prenda.detalle }}</p>
+
+        <div *ngFor="let inv of prenda.inventarios" class="inventario-item">
+          <strong>{{ inv.tipo_entidad | titlecase }}</strong>:
+          {{ inv.cantidad }}
+          <span *ngIf="inv.unidad"> - {{ inv.unidad.nombre_unidad }}</span>
+          <br />
+          <small>Última actualización: {{ inv.ultima_actualizacion | date:'short' }}</small>
+        </div>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <p *ngIf="!cargando && prendas.length === 0">No hay inventario disponible.</p>

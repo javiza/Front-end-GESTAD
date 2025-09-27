@@ -103,7 +103,9 @@ export class MovimientosComponenteComponent implements OnInit {
   }
 
 guardarMovimiento() {
-  if (this.movimientoForm.invalid) return;
+  if (this.movimientoForm.invalid) {
+    return;
+  }
 
   const payload: any = {
     nombre_prenda: this.movimientoForm.value.nombre_prenda,
@@ -142,7 +144,9 @@ guardarMovimiento() {
 }
 
 eliminarMovimiento(mov: Movimiento) {
-  if (!mov.id_movimiento) return;
+  if (!mov.id_movimiento) {
+    return;
+  }
 
   if (confirm(`¿Eliminar el movimiento de ${mov.cantidad} ${mov.prenda?.nombre || mov.nombre_prenda}?`)) {
     this.movimientosService.deleteMovimiento(mov.id_movimiento).subscribe({
