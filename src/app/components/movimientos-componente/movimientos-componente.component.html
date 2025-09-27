@@ -1,4 +1,4 @@
-<ion-content class="ion-padding" style="min-height: 1000px;">
+<!-- <ion-content class="ion-padding" style="min-height: 1000px;"> -->
   <h2>Ingreso de movimiento</h2>
 
   <form [formGroup]="movimientoForm" (ngSubmit)="guardarMovimiento()">
@@ -62,27 +62,6 @@
       <ion-input type="text" formControlName="descripcion"></ion-input>
     </ion-item>
 
-    <!-- Reproceso -->
-    <ion-item *ngIf="movimientoForm.value.hacia_tipo === 'reproceso'">
-      <ion-label position="floating">Reproceso</ion-label>
-      <ion-select formControlName="id_reproceso" interface="popover">
-        <ion-select-option *ngFor="let r of reprocesos" [value]="r.id_reproceso">
-          {{ r.descripcion }}
-           {{ r.responsable }}
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
-
-    <!-- Baja -->
-    <ion-item *ngIf="movimientoForm.value.hacia_tipo === 'baja'">
-      <ion-label position="floating">Baja</ion-label>
-      <ion-select formControlName="id_baja" interface="popover">
-        <ion-select-option *ngFor="let b of bajas" [value]="b.id_baja">
-          {{ b.motivo }}
-           {{ b.responsable }}
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
 
     <!-- Botón guardar -->
     <ion-button expand="block" type="submit" color="primary" [disabled]="movimientoForm.invalid">
@@ -126,4 +105,4 @@
   <ion-button [disabled]="page >= totalPages" (click)="cargarMovimientos(page + 1)">Siguiente</ion-button>
 </div>
   <div style="height: 100px;"></div>
-</ion-content>
+<!-- </ion-content> -->
