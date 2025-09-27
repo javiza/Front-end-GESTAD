@@ -51,23 +51,27 @@ export class IngresosPage implements OnInit, OnDestroy {
       if (event instanceof NavigationEnd) {
         const url = event.urlAfterRedirects;
 
-        if (url.includes('movimientos')) this.activeSegment = 'movimientos';
-      
-        else if (url.includes('inventarios'))
-          this.activeSegment = 'inventarios';
-        else if (url.includes('ingresos'))
-          this.activeSegment = 'ingresos'; 
-        else this.activeSegment = 'home';
+        if (url.includes('movimientos')) {
+          this.activeSegment = 'movimientos';
+        } else if (url.includes('inventarios')) {
+                 this.activeSegment = 'inventarios';
+               } else if (url.includes('ingresos')) {
+                        this.activeSegment = 'ingresos';
+                      } else {
+                        this.activeSegment = 'home';
+                      }
       }
     });
   }
 
   ngOnDestroy(): void {
-    if (this.routerSub) this.routerSub.unsubscribe();
+    if (this.routerSub) {
+      this.routerSub.unsubscribe();
+    }
   }
 
   segmentChanged(event: any) {
-    const value = event.detail.value;
+    const {value} = event.detail;
     console.log('Segment cambiado a:', value);
     this.navCtrl.navigateForward('/' + value);
   }
