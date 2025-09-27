@@ -35,6 +35,7 @@ import { Subscription } from 'rxjs';
     CommonModule,
     FormsModule,
     PrendaComponent,
+
   ],
 })
 export class IngresosPage implements OnInit, OnDestroy {

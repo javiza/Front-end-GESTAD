@@ -3,11 +3,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-
 export interface LoginResponse {
   access_token: string;
   user: {
-    id: string;
+    id: number;
     nombre_usuario: string;
     email: string;
     rol: 'administrador' | 'usuario';
@@ -18,12 +17,12 @@ export interface LoginResponse {
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = `${environment.apiUrl}/auth-user`; 
+  private apiUrl = `${environment.apiUrl}/auth`;
 
   constructor(private http: HttpClient) {}
 
   login(email: string, password: string): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/login-user`, { email, password });
+    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, { email, password });
   }
 
   saveSession(res: LoginResponse) {
@@ -50,10 +49,21 @@ export class AuthService {
   }
 
   getUserId(): number {
+    // Intenta obtener desde el token
     const token = this.getToken();
-    if (!token) return 0;
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        if (payload?.sub) {
+          return Number(payload.sub);
+        }
+      } catch (e) {
+        console.warn('Error al decodificar el token JWT:', e);
+      }
+    }
 
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    return Number(payload.sub);
+    // Fallback: obtener desde el objeto user
+    const user = this.getUser();
+    return user?.id ? Number(user.id) : 0;
   }
 }

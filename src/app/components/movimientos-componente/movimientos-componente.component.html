@@ -1,0 +1,129 @@
+<ion-content class="ion-padding" style="min-height: 1000px;">
+  <h2>Ingreso de movimiento</h2>
+
+  <form [formGroup]="movimientoForm" (ngSubmit)="guardarMovimiento()">
+   
+    <!-- Desde -->
+<ion-item>
+  <ion-label position="floating">Desde</ion-label>
+  <ion-select formControlName="desde_tipo" interface="alert">
+    <ion-select-option value="roperia">Ropería</ion-select-option>
+    <ion-select-option value="lavanderia">Lavandería</ion-select-option>
+    <ion-select-option value="reproceso">Reproceso</ion-select-option>
+    <ion-select-option value="unidad">Unidad Clínica</ion-select-option>
+    <ion-select-option value="baja">Baja</ion-select-option>
+  </ion-select>
+</ion-item>
+
+<!-- Hacia -->
+<ion-item>
+  <ion-label position="floating">Hacia</ion-label>
+  <ion-select formControlName="hacia_tipo" interface="alert">
+    <ion-select-option value="roperia">Ropería</ion-select-option>
+    <ion-select-option value="lavanderia">Lavandería</ion-select-option>
+    <ion-select-option value="reproceso">Reproceso</ion-select-option>
+    <ion-select-option value="unidad">Unidad Clínica</ion-select-option>
+    <ion-select-option value="baja">Baja</ion-select-option>
+  </ion-select>
+</ion-item>
+
+    <!-- en caso que se seleccione unidad se debe mostrar las unidades disponibles el la entidad y tabla unidades clinicas -->
+    
+    <ion-item *ngIf="movimientoForm.value.hacia_tipo === 'unidad'">
+  <ion-label position="floating">Unidad Clínica (Destino)</ion-label>
+  <ion-select formControlName="hacia_id_unidad" interface="popover">
+    <ion-select-option *ngFor="let u of unidades" [value]="u.id_unidad">
+      {{ u.nombre_unidad }}
+    </ion-select-option>
+  </ion-select>
+</ion-item>
+
+    <!--nombre Prenda -->
+<ion-item>
+  <ion-label position="floating">Prenda</ion-label>
+  <ion-select formControlName="nombre_prenda" interface="popover">
+    <ion-select-option *ngFor="let prenda of prendas" [value]="prenda.nombre">
+      {{ prenda.nombre }}
+    </ion-select-option>
+  </ion-select>
+</ion-item>
+
+
+
+    <!-- Cantidad -->
+    <ion-item>
+      <ion-label position="floating">Cantidad</ion-label>
+      <ion-input type="number" formControlName="cantidad"></ion-input>
+    </ion-item>
+
+    <!-- Descripcion -->
+    <ion-item>
+      <ion-label position="floating">Descripcion</ion-label>
+      <ion-input type="text" formControlName="descripcion"></ion-input>
+    </ion-item>
+
+    <!-- Reproceso -->
+    <ion-item *ngIf="movimientoForm.value.hacia_tipo === 'reproceso'">
+      <ion-label position="floating">Reproceso</ion-label>
+      <ion-select formControlName="id_reproceso" interface="popover">
+        <ion-select-option *ngFor="let r of reprocesos" [value]="r.id_reproceso">
+          {{ r.descripcion }}
+           {{ r.responsable }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <!-- Baja -->
+    <ion-item *ngIf="movimientoForm.value.hacia_tipo === 'baja'">
+      <ion-label position="floating">Baja</ion-label>
+      <ion-select formControlName="id_baja" interface="popover">
+        <ion-select-option *ngFor="let b of bajas" [value]="b.id_baja">
+          {{ b.motivo }}
+           {{ b.responsable }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <!-- Botón guardar -->
+    <ion-button expand="block" type="submit" color="primary" [disabled]="movimientoForm.invalid">
+      {{ editandoId ? 'Actualizar' : 'Guardar Movimiento' }}
+    </ion-button>
+  </form>
+
+<h3>Lista de movimientos</h3>
+<ion-list *ngIf="movimientos.length > 0">
+  <ion-item *ngFor="let mov of movimientos">
+    <ion-label>
+      <h2>{{ mov.usuario?.nombre_usuario }} movió {{ mov.cantidad }} {{ mov.prenda?.nombre || mov.nombre_prenda}}</h2>
+      <p>
+        Desde: {{ mov.desde_tipo }}
+        <span *ngIf="mov.desde_unidad"> ({{ mov.desde_unidad.nombre_unidad }})</span>
+        →
+        Hacia: {{ mov.hacia_tipo }}
+        <span *ngIf="mov.hacia_unidad"> ({{ mov.hacia_unidad.nombre_unidad }})</span>
+      </p>
+      <p>{{ mov.descripcion }}</p>
+      <p>Fecha: {{ mov.fecha | date:'short' }}</p>
+    </ion-label>
+
+    <!-- Botones editar / eliminar -->
+    <ion-button fill="clear" (click)="editarMovimiento(mov)">
+      <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+    </ion-button>
+    <ion-button fill="clear" color="danger" (click)="eliminarMovimiento(mov)">
+      <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+    </ion-button>
+  </ion-item>
+</ion-list>
+
+<p *ngIf="movimientos.length === 0">No hay movimientos registrados.</p>
+
+
+<!-- Paginación -->
+<div class="pagination">
+  <ion-button [disabled]="page <= 1" (click)="cargarMovimientos(page - 1)">Anterior</ion-button>
+  <span>Página {{ page }} de {{ totalPages }}</span>
+  <ion-button [disabled]="page >= totalPages" (click)="cargarMovimientos(page + 1)">Siguiente</ion-button>
+</div>
+  <div style="height: 100px;"></div>
+</ion-content>

@@ -12,14 +12,13 @@ import {
   IonSegmentButton,
 } from '@ionic/angular/standalone';
 
-import { MovimientosComponent } from 'src/app/components/movimientos/movimientos.component';
-
+import { MovimientosComponenteComponent } from 'src/app/components/movimientos-componente/movimientos-componente.component';
 import { NavController } from '@ionic/angular';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-movimientos',
+  selector: 'app-mov',
   templateUrl: './movimientos.page.html',
   styleUrls: ['./movimientos.page.scss'],
   standalone: true,
@@ -34,7 +33,8 @@ import { Subscription } from 'rxjs';
     IonToolbar,
     CommonModule,
     FormsModule,
-    MovimientosComponent
+    MovimientosComponenteComponent
+   
 ],
 })
 export class MovimientosPage implements OnInit, OnDestroy {

@@ -43,7 +43,6 @@ import { AuthService } from 'src/app/services/auth.service';
 export class PrendaComponent implements OnInit {
   nombre_prenda = '';
   cantidad: number | null = null;
-  tipo = '';
   detalle = '';
   peso: number | null = null;
 
@@ -68,7 +67,7 @@ export class PrendaComponent implements OnInit {
   }
 
   ingresarPrenda() {
-  if (!this.nombre_prenda || !this.cantidad || !this.tipo || !this.peso) {
+  if (!this.nombre_prenda || !this.cantidad || !this.peso) {
     return;
   }
 
@@ -76,31 +75,34 @@ export class PrendaComponent implements OnInit {
     nombre: this.nombre_prenda,
     cantidad: this.cantidad ? Number(this.cantidad) : 1,
     detalle: this.detalle,
-    tipo: this.tipo,
     peso: this.peso ? Number(this.peso) : 0.5,
   };
 
   console.log('Payload a enviar:', prendaData);
 
-  if (this.editandoId !== null) {
-    this.prendaService.update(this.editandoId, prendaData).subscribe({
-      next: () => {
-        this.resetForm();
-        this.cargarPrendas();
-      },
-      error: (err) => console.error('Error al actualizar prenda:', err),
-    });
-  } else {
-    const id_usuario = this.authService.getUserId(); 
-    console.log('ID usuario obtenido del token:', id_usuario);
-    this.prendaService.createWithMovimiento(prendaData, id_usuario).subscribe({
-      next: () => {
-        this.resetForm();
-        this.cargarPrendas();
-      },
-      error: (err) => console.error('Error al ingresar prenda:', err),
-    });
-  }
+ if (this.editandoId !== null) {
+  this.prendaService.update(this.editandoId, prendaData).subscribe({
+  next: (prendaActualizada) => {
+    this.resetForm();
+    const index = this.prendas.findIndex(p => p.id_prenda === prendaActualizada.id_prenda);
+    if (index !== -1) {
+      this.prendas[index] = prendaActualizada;
+      this.prendas = [...this.prendas]; // fuerza render inmediato
+    }
+  },
+  error: (err) => console.error('Error al actualizar prenda:', err),
+});
+} else {
+  const id_usuario = this.authService.getUserId();
+  console.log('ID usuario obtenido del token:', id_usuario);
+  this.prendaService.createWithMovimiento(prendaData, id_usuario).subscribe({
+    next: (nuevaPrenda) => {
+      this.resetForm();
+      this.prendas.unshift(nuevaPrenda);
+    },
+    error: (err) => console.error('Error al ingresar prenda:', err),
+  });
+}
 }
 
 
@@ -109,7 +111,6 @@ export class PrendaComponent implements OnInit {
     this.editandoId = prenda.id_prenda;
     this.nombre_prenda = prenda.nombre;
     this.cantidad = prenda.cantidad ?? null;
-    this.tipo = prenda.tipo;
     this.detalle = prenda.detalle ?? '';
   }
 
@@ -125,7 +126,6 @@ export class PrendaComponent implements OnInit {
   private resetForm() {
   this.nombre_prenda = '';
   this.cantidad = null;
-  this.tipo = '';
   this.detalle = '';
   this.peso = null;
   this.editandoId = null;

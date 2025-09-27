@@ -45,7 +45,7 @@ export class AdministradorPage implements OnInit, OnDestroy {
     this.routerSub = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         const url = event.urlAfterRedirects;
-        if (url.includes('inventario')) this.activeSegment = 'inventario';
+        if (url.includes('inventarios')) this.activeSegment = 'inventarios';
 
         else if (url.includes('administrador')) this.activeSegment = 'administrador';
         else if (url.includes('home')) this.activeSegment = 'home';

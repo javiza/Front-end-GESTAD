@@ -12,17 +12,10 @@
   </ion-item>
 
   <ion-item>
-    <ion-label>Tipo</ion-label>
-    <ion-select [(ngModel)]="tipo" name="tipo" interface="popover" required>
-      <ion-select-option value="blanco">Blanco</ion-select-option>
-      <ion-select-option value="verde">Verde</ion-select-option>
-    </ion-select>
-  </ion-item>
-
-  <ion-item>
     <ion-label position="floating">Detalle</ion-label>
     <ion-textarea [(ngModel)]="detalle" name="detalle"></ion-textarea>
   </ion-item>
+
   <ion-item>
   <ion-label position="floating">Peso (gramos)</ion-label>
   <ion-input type="number" [(ngModel)]="peso" name="peso" required></ion-input>
@@ -40,10 +33,10 @@
     <ion-label>
       <h2>{{ prenda.nombre }}</h2>
       <p>
-        Tipo: {{ prenda.tipo }} |
+        Peso: {{ prenda.peso }} kg |
         Cantidad: {{ prenda.cantidad }} |
         Detalle: {{ prenda.detalle }} |
-        Fecha: {{ prenda.fechaIngreso | date:'short' }}
+        Última actualización: {{ prenda.fechaIngreso | date:'short' }}
       </p>
     </ion-label>
     <ion-button fill="clear" (click)="editarPrenda(prenda)">
