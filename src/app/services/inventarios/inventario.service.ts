@@ -13,7 +13,7 @@ export interface UnidadClinica {
 
 export interface Inventario {
   id: number;
-  tipo_entidad: 'roperia' | 'lavanderia' | 'unidad' | 'reproceso' | 'baja';
+  tipo_entidad: 'roperia' | 'lavanderia' | 'unidad' | 'reproceso' | 'baja' | 'reparacion';
   unidad?: UnidadClinica | null;
   cantidad: number;
   ultima_actualizacion: string;
