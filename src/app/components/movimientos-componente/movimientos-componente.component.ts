@@ -95,6 +95,7 @@ export class MovimientosComponenteComponent implements OnInit {
     this.movimientosService.getUnidades().subscribe(d => this.unidades = d.data ?? d);
     this.movimientosService.getReprocesos().subscribe(d => this.reprocesos = d.data ?? d);
     this.movimientosService.getBajas().subscribe(d => this.bajas = d.data ?? d);
+    this.movimientosService.getReparaciones().subscribe(d => this.reparaciones = d.data ?? d);
     this.movimientosService.getPrendas().subscribe(d => {
       const lista = d.data ?? d;
       // filtro para no repetir nombres de prenda
@@ -177,6 +178,20 @@ export class MovimientosComponenteComponent implements OnInit {
     }
   }
 
-  resetForm() { /* ... */ }
-  limpiarIdsRelacionales() { /* ... */ }
+  resetForm() {
+  this.editandoId = null; // salir del modo edición si estabas editando
+
+  this.movimientoForm.reset({
+    cantidad: 1,
+    descripcion: '',
+    nombre_prenda: null,
+    desde_tipo: 'roperia',
+    hacia_tipo: 'lavanderia',
+    hacia_id_unidad: null,
+    id_reproceso: null,
+    id_baja: null
+  });
+}
+
+  limpiarIdsRelacionales() {  }
 }

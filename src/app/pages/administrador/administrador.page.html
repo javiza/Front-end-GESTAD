@@ -6,15 +6,14 @@
     </ion-buttons>
   </ion-toolbar>
 
-  <ion-toolbar color="primary">
+<ion-toolbar color="primary">
     <ion-segment [(ngModel)]="activeSegment" (ionChange)="segmentChanged($event)" scrollable>
       <ion-segment-button value="home">Home</ion-segment-button>
       <ion-segment-button value="administrador">Administrador</ion-segment-button>
-      <ion-segment-button value="inventarioadmin">inventarios</ion-segment-button>
+      <ion-segment-button value="inventarioadmin">Inventario Admin</ion-segment-button>
     </ion-segment>
   </ion-toolbar>
 </ion-header>
-
 <ion-content [fullscreen]="true">
   
   <div class="center-content">

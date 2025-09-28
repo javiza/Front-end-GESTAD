@@ -1,6 +1,4 @@
-import { InventarioComponenteComponent } from 'src/app/components/inventario-componente/inventario-componente.component';
-import { InventarioNombreComponent } from 'src/app/components/inventario-nombre/inventario-nombre.component';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -13,10 +11,12 @@ import {
   IonButtons,
   IonSegmentButton,
 } from '@ionic/angular/standalone';
+import { InventarioComponenteComponent } from '../../components/inventario-componente/inventario-componente.component';
+import { InventarioNombreComponent } from 'src/app/components/inventario-nombre/inventario-nombre.component';
 import { NavController } from '@ionic/angular';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { GraficoPrendaComponent } from "src/app/components/grafico-prenda/grafico-prenda.component";
+import { GraficoPrendaComponent } from 'src/app/components/grafico-prenda/grafico-prenda.component';
 
 @Component({
   selector: 'app-inventarioadmin',
@@ -34,28 +34,29 @@ import { GraficoPrendaComponent } from "src/app/components/grafico-prenda/grafic
     IonToolbar,
     CommonModule,
     FormsModule,
+    GraficoPrendaComponent,
     InventarioComponenteComponent,
     InventarioNombreComponent,
-    GraficoPrendaComponent
-],
+ 
+  ],
 })
 export class InventarioadminPage implements OnInit, OnDestroy {
-  activeSegment: string = 'home';
-  routerSub!: Subscription;
+  activeSegment: string = 'home'; // estado del segmento
+  private routerSub!: Subscription;
 
-  constructor(private navCtrl: NavController, private router: Router) {}
+  private navCtrl = inject(NavController);
+  private router = inject(Router);
 
   ngOnInit(): void {
+    console.log('InventariosadminPage cargado');
+
+    // nicializar activeSegment según la URL actual
+    this.setActiveSegment(this.router.url);
+
+    
     this.routerSub = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        const url = event.urlAfterRedirects;
-        if (url.includes('administrador')) {
-          this.activeSegment = 'administrador';
-        } else if (url.includes('inventarioadmin')) {
-                 this.activeSegment = 'inventarioadmin';
-               } else if (url.includes('home')) {
-                                      this.activeSegment = 'home';
-                                    }
+        this.setActiveSegment(event.urlAfterRedirects);
       }
     });
   }
@@ -66,9 +67,22 @@ export class InventarioadminPage implements OnInit, OnDestroy {
     }
   }
 
+  //  Método central para determinar el segmento
+  private setActiveSegment(url: string) {
+   if (url.includes('administrador')) {
+             this.activeSegment = 'administrador';
+           } else if (url.includes('inventarioadmin')) {
+                    this.activeSegment = 'inventarioadmin';
+                  } else {
+                    this.activeSegment = 'home';
+                  }
+  }
+
+  // Usamos navigateRoot 
   segmentChanged(event: any) {
-    const {value} = event.detail;
-    this.navCtrl.navigateForward('/' + value);
+    const { value } = event.detail;
+    console.log('Segment cambiado a:', value);
+    this.navCtrl.navigateRoot('/' + value);
   }
 
   logout() {
