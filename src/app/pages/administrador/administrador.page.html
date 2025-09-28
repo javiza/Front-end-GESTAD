@@ -10,14 +10,19 @@
     <ion-segment [(ngModel)]="activeSegment" (ionChange)="segmentChanged($event)" scrollable>
       <ion-segment-button value="home">Home</ion-segment-button>
       <ion-segment-button value="administrador">Administrador</ion-segment-button>
-      <ion-segment-button value="inventarios">inventarios</ion-segment-button>
+      <ion-segment-button value="inventarioadmin">inventarios</ion-segment-button>
     </ion-segment>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  
   <div class="center-content">
     <!-- Aquí se carga el formulario de ingreso usuario -->
     <app-ingreso-usuario></app-ingreso-usuario>
+  </div>
+  <div class="center-content">
+    <!-- Aquí se carga el componente de movimientos -->
+    <app-unidad-clinica></app-unidad-clinica>
   </div>
 </ion-content>

@@ -24,7 +24,7 @@ export const routes: Routes = [
     data: { roles: ['usuario'] },
   },
 
-  // 🔹 Inventarios (acceso según rol que definas en el guard)
+  // 
   {
     path: 'inventarios',
     loadComponent: () =>
@@ -32,7 +32,7 @@ export const routes: Routes = [
         (m) => m.InventariosPage
       ),
     canActivate: [RoleGuard],
-    data: { roles: ['usuario', 'administrador'] }, // ejemplo
+    data: { roles: ['usuario', 'administrador'] }, 
   },
 
 
@@ -40,11 +40,10 @@ export const routes: Routes = [
  
   {
     path: 'home',
-    loadComponent: () =>
-      import('./pages/home/home.page').then((m) => m.HomePage),
+    loadComponent: () => import('./pages/home/home.page').then((m) => m.HomePage),
   },
 
-  // 🔹 Redirección por defecto
+  // Redirección por defecto
   {
     path: '',
     redirectTo: 'home',
@@ -52,10 +51,23 @@ export const routes: Routes = [
   },
   {
     path: 'movimientos',
-    loadComponent: () => import('./pages/movimientos/movimientos.page').then( m => m.MovimientosPage)
+    loadComponent: () => import('./pages/movimientos/movimientos.page').then( 
+      m => m.MovimientosPage
+    ),
+    canActivate: [RoleGuard],
+    data: { roles: ['usuario', 'administrador'] }, 
+
   },
+  
   {
-    path: 'inventarios',
-    loadComponent: () => import('./pages/inventarios/inventarios.page').then( m => m.InventariosPage)
+    path: 'inventarioadmin',
+    loadComponent: () => import('./pages/inventarioadmin/inventarioadmin.page').then( 
+      m => m.InventarioadminPage
+    ),
+    canActivate: [RoleGuard],
+    data: { roles: ['administrador'] },
   },
+
+  
+   
 ];

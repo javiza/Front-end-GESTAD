@@ -1,3 +1,4 @@
+/* layout dos columnas */
 .container {
   display: flex;
   gap: 20px;
@@ -10,11 +11,11 @@
 
 .lista {
   flex: 1; /* 50% */
-  max-height: 80vh;
-  overflow-y: auto;
+ max-height: 60vh;
+  overflow-y: scroll; 
 }
 
-/* Responsive: en móvil se apilan */
+/* Opcional: responsive en móviles (apilar) */
 @media (max-width: 767px) {
   .container {
     flex-direction: column;

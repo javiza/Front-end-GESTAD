@@ -1,4 +1,5 @@
-import { IngresoUsuarioComponent } from 'src/app/components/ingreso-usuario/ingreso-usuario.component';
+import { InventarioComponenteComponent } from 'src/app/components/inventario-componente/inventario-componente.component';
+import { InventarioNombreComponent } from 'src/app/components/inventario-nombre/inventario-nombre.component';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -15,12 +16,12 @@ import {
 import { NavController } from '@ionic/angular';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { UnidadClinicaComponent } from "src/app/components/unidad-clinica/unidad-clinica.component";
+import { GraficoPrendaComponent } from "src/app/components/grafico-prenda/grafico-prenda.component";
 
 @Component({
-  selector: 'app-administrador',
-  templateUrl: './administrador.page.html',
-  styleUrls: ['./administrador.page.scss'],
+  selector: 'app-inventarioadmin',
+  templateUrl: './inventarioadmin.page.html',
+  styleUrls: ['./inventarioadmin.page.scss'],
   standalone: true,
   imports: [
     IonContent,
@@ -33,12 +34,12 @@ import { UnidadClinicaComponent } from "src/app/components/unidad-clinica/unidad
     IonToolbar,
     CommonModule,
     FormsModule,
-    IngresoUsuarioComponent,
-    UnidadClinicaComponent,
-   
+    InventarioComponenteComponent,
+    InventarioNombreComponent,
+    GraficoPrendaComponent
 ],
 })
-export class AdministradorPage implements OnInit, OnDestroy {
+export class InventarioadminPage implements OnInit, OnDestroy {
   activeSegment: string = 'home';
   routerSub!: Subscription;
 
@@ -48,9 +49,9 @@ export class AdministradorPage implements OnInit, OnDestroy {
     this.routerSub = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         const url = event.urlAfterRedirects;
-        if (url.includes('inventarioadmin')) this.activeSegment = 'inventarioadmin';
+        if (url.includes('administrador')) this.activeSegment = 'administrador';
 
-        else if (url.includes('administrador')) this.activeSegment = 'administrador';
+        else if (url.includes('inventarioadmin')) this.activeSegment = 'inventarioadmin';
         else if (url.includes('home')) this.activeSegment = 'home';
       }
     });

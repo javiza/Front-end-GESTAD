@@ -1,29 +1,24 @@
-<h2>Inventario por Nombre</h2>
+<h2>Búsqueda de inventario por prenda</h2>
 
-  <!-- Barra de búsqueda -->
-  <ion-searchbar
-    [(ngModel)]="termino"
-    placeholder="Buscar por nombre de prenda..."
-    (ionInput)="buscar()">
-  </ion-searchbar>
+<form (ngSubmit)="buscar()">
+  <ion-item>
+    <ion-label position="floating">Nombre de prenda</ion-label>
+    <ion-input [(ngModel)]="termino" name="termino"></ion-input>
+  </ion-item>
+  <ion-button expand="block" type="submit" [disabled]="buscando">
+    Buscar
+  </ion-button>
+</form>
 
-  <!-- Loader -->
-  <ion-spinner *ngIf="buscando" name="crescent"></ion-spinner>
+<ion-spinner *ngIf="buscando"></ion-spinner>
 
-  <!-- Resultados -->
-  <ion-list *ngIf="resultados.length > 0">
-    <ion-item *ngFor="let r of resultados">
-      <ion-label>
-        <h2>{{ r.nombre }}</h2>
-        <p>
-          <strong>Tipo:</strong> {{ r.tipo_entidad }}
-          <span *ngIf="r.unidad"> ({{ r.unidad }})</span>
-        </p>
-        <p><strong>Cantidad:</strong> {{ r.cantidad }}</p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
+<ion-list *ngIf="!buscando && resultados.length > 0">
+  <ion-item *ngFor="let r of resultados">
+    <ion-label>
+      <h2>{{ r.clave }}</h2>
+      <p>Cantidad total: {{ r.cantidad }}</p>
+    </ion-label>
+  </ion-item>
+</ion-list>
 
-  <p *ngIf="!buscando && resultados.length === 0 && termino">
-    No se encontraron resultados para "{{ termino }}"
-  </p>
+<p *ngIf="!buscando && resultados.length === 0">No hay resultados.</p>

@@ -20,3 +20,15 @@ app-ingreso-usuario {
   background-color: #fff;
   box-sizing: border-box;
 }
+app-unidad-clinica {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 30px 20px;
+  background-color: #fff;
+  box-sizing: border-box;
+}

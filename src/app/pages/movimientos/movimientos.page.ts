@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -11,14 +11,13 @@ import {
   IonButtons,
   IonSegmentButton,
 } from '@ionic/angular/standalone';
-
 import { MovimientosComponenteComponent } from 'src/app/components/movimientos-componente/movimientos-componente.component';
 import { NavController } from '@ionic/angular';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-mov',
+  selector: 'app-movimientos',
   templateUrl: './movimientos.page.html',
   styleUrls: ['./movimientos.page.scss'],
   standalone: true,
@@ -34,31 +33,25 @@ import { Subscription } from 'rxjs';
     CommonModule,
     FormsModule,
     MovimientosComponenteComponent
-   
-],
+  ],
 })
 export class MovimientosPage implements OnInit, OnDestroy {
-  activeSegment: string = 'home';
-  routerSub!: Subscription;
+  activeSegment: string = 'home'; // estado del segmento
+  private routerSub!: Subscription;
 
-  constructor(private navCtrl: NavController, private router: Router) {}
+  private navCtrl = inject(NavController);
+  private router = inject(Router);
 
   ngOnInit(): void {
-    console.log('MovimientosPage cargado');
+    console.log('movimientosPage cargado');
 
+    // nicializar activeSegment según la URL actual
+    this.setActiveSegment(this.router.url);
+
+    // Suscripción a cambios de navegación
     this.routerSub = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        const url = event.urlAfterRedirects;
-
-        if (url.includes('ingresos')) {
-          this.activeSegment = 'ingresos';
-        } else if (url.includes('inventarios')) {
-                 this.activeSegment = 'inventarios';
-               } else if (url.includes('movimientos')) {
-                        this.activeSegment = 'movimientos';
-                      } else {
-                        this.activeSegment = 'home';
-                      }
+        this.setActiveSegment(event.urlAfterRedirects);
       }
     });
   }
@@ -69,10 +62,19 @@ export class MovimientosPage implements OnInit, OnDestroy {
     }
   }
 
+  //  Método central para determinar el segmento
+  private setActiveSegment(url: string) {
+    if (url.includes('ingresos')) this.activeSegment = 'ingresos';
+    else if (url.includes('inventarios')) this.activeSegment = 'inventarios';
+    else if (url.includes('movimientos')) this.activeSegment = 'movimientos';
+    else this.activeSegment = 'home';
+  }
+
+  // Usamos navigateRoot en vez de navigateForward
   segmentChanged(event: any) {
-    const {value} = event.detail;
+    const { value } = event.detail;
     console.log('Segment cambiado a:', value);
-    this.navCtrl.navigateForward('/' + value);
+    this.navCtrl.navigateRoot('/' + value);
   }
 
   logout() {

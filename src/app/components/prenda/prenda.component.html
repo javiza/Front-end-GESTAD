@@ -2,9 +2,14 @@
 
 <form (ngSubmit)="ingresarPrenda()">
   <ion-item>
-    <ion-label position="floating">Nombre Prenda</ion-label>
-    <ion-input [(ngModel)]="nombre_prenda" name="nombre_prenda" required></ion-input>
-  </ion-item>
+  <ion-label position="floating">Nombre Prenda</ion-label>
+  <ion-input 
+    [(ngModel)]="nombre_prenda" 
+    name="nombre_prenda" 
+    required
+    (ionInput)="nombre_prenda = nombre_prenda.toLowerCase()">
+  </ion-input>
+</ion-item>
 
   <ion-item>
     <ion-label position="floating">Cantidad</ion-label>

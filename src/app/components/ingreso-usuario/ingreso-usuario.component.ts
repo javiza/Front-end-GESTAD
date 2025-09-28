@@ -11,9 +11,8 @@ import {
   IonTextarea,
   IonSelect,
   IonSelectOption,
-  IonList,
-} from '@ionic/angular/standalone';
-import { UsuariosService, Usuario } from 'src/app/services/usuarios/usuarios.service';
+  IonList, IonCol, IonRow } from '@ionic/angular/standalone';
+import { UsuariosService, Usuario, CreateUsuario } from 'src/app/services/usuarios/usuarios.service';
 import { addIcons } from 'ionicons';
 import { createOutline, trashOutline } from 'ionicons/icons';
 
@@ -22,7 +21,7 @@ import { createOutline, trashOutline } from 'ionicons/icons';
   templateUrl: './ingreso-usuario.component.html',
   styleUrls: ['./ingreso-usuario.component.scss'],
   standalone: true,
-  imports: [
+  imports: [IonRow, IonCol, 
     FormsModule,
     CommonModule,
     IonContent,
@@ -55,6 +54,13 @@ export class IngresoUsuarioComponent implements OnInit {
 
   ngOnInit() {
     this.cargarUsuarios();
+
+  // log para revisar quién está logueado
+  const user = localStorage.getItem('user');
+  console.log('USUARIO ACTUAL:', user ? JSON.parse(user) : 'No hay sesión');
+
+  const token = localStorage.getItem('token');
+  console.log('TOKEN ACTUAL:', token ? token.substring(0, 30) + '...' : 'No hay token');
   }
 
   cargarUsuarios() {
@@ -65,47 +71,52 @@ export class IngresoUsuarioComponent implements OnInit {
   }
 
   ingresarUsuario() {
-    if (!this.validarRut(this.rut)) {
-      alert('RUT inválido. Verifica el formato.');
+  if (!this.validarRut(this.rut)) {
+    alert('RUT inválido. Verifica el formato.');
+    return;
+  }
+
+  // DTO para crear/actualizar
+  const payload: CreateUsuario = {
+    nombre_usuario: this.nombre_usuario,
+    email: this.email,
+    rol: this.rol,
+    rut: this.rut.replace(/\./g, ''),
+    password: this.password // requerido en creación
+  };
+
+  if (this.id) {
+    // Actualizar usuario
+    const updatePayload = { ...payload };
+    if (!this.password) {
+      // Si no se cambia password, lo quitamos
+      delete (updatePayload as any).password;
+    }
+
+    this.usuariosService.update(this.id, updatePayload).subscribe({
+      next: () => {
+        this.limpiarFormulario();
+        this.cargarUsuarios();
+      },
+      error: (err) => console.error('Error al actualizar usuario:', err),
+    });
+  } else {
+    // Crear usuario → requiere password
+    if (!this.password) {
+      alert('Debes ingresar una contraseña para el nuevo usuario.');
       return;
     }
 
-    const payload: any = {
-      nombre_usuario: this.nombre_usuario,
-      email: this.email,
-      rol: this.rol,
-      rut: this.rut,
-    };
-
-    // 👉 Solo mandar password si el campo no está vacío
-    if (this.password) {
-      payload.password = this.password;
-    }
-
-    if (this.id) {
-      // 🔹 Actualizar usuario
-      this.usuariosService.update(this.id, payload).subscribe({
-        next: () => {
-          this.limpiarFormulario();
-          this.cargarUsuarios();
-        },
-        error: (err) => console.error('Error al actualizar usuario:', err),
-      });
-    } else {
-      // 🔹 Crear usuario → requiere password
-      if (!this.password) {
-        alert('Debes ingresar una contraseña para el nuevo usuario.');
-        return;
-      }
-      this.usuariosService.create(payload).subscribe({
-        next: () => {
-          this.limpiarFormulario();
-          this.cargarUsuarios();
-        },
-        error: (err) => console.error('Error al crear usuario:', err),
-      });
-    }
+    this.usuariosService.create(payload).subscribe({
+      next: () => {
+        this.limpiarFormulario();
+        this.cargarUsuarios();
+      },
+      error: (err) => console.error('Error al crear usuario:', err),
+    });
   }
+}
+
 
   editarUsuario(usuario: Usuario) {
     this.id = usuario.id;

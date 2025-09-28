@@ -13,7 +13,7 @@ import {
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 
-// 👇 Importamos addIcons e íconos específicos
+
 import { addIcons } from 'ionicons';
 import {
   mailOutline,
@@ -71,20 +71,20 @@ export class InicioSesionComponent implements OnInit {
     this.loading = true;
     this.errorMessage = '';
 
-    this.authService.login(this.email, this.password).subscribe({
-      next: (res) => {
-        localStorage.setItem('token', res.access_token);
-        this.loading = false;
-        this.resetForm();
+   this.authService.login(this.email, this.password).subscribe({
+  next: (res) => {
+    this.authService.saveSession(res);  
+    this.loading = false;
+    this.resetForm();
 
-        if (res.user.rol === 'administrador') {
-          this.router.navigate(['/administrador'], { replaceUrl: true });
-        } else if (res.user.rol === 'usuario') {
-          this.router.navigate(['/ingresos'], { replaceUrl: true });
-        } else {
-          this.router.navigate(['/home'], { replaceUrl: true });
-        }
-      },
+    if (res.user.rol === 'administrador') {
+      this.router.navigate(['/administrador'], { replaceUrl: true });
+    } else if (res.user.rol === 'usuario') {
+      this.router.navigate(['/ingresos'], { replaceUrl: true });
+    } else {
+      this.router.navigate(['/home'], { replaceUrl: true });
+    }
+  },
       error: (err) => {
         console.error('Error en login:', err);
         this.errorMessage = 'Usuario o contraseña incorrectos';

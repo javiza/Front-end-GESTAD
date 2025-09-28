@@ -9,10 +9,19 @@ export interface Usuario {
   nombre_usuario: string;
   rut: string;                // agregar rut
   email: string;
+  password: string;
   rol: 'administrador' | 'usuario';
   // activo?: boolean;           // opcional porque backend lo maneja
   fecha_creacion?: string;  
 }
+export interface CreateUsuario {
+  nombre_usuario: string;
+  rut: string;
+  email: string;
+  password: string;
+  rol: 'administrador' | 'usuario';
+}
+
 
 
 @Injectable({
@@ -38,9 +47,10 @@ export class UsuariosService {
     return this.http.get<Usuario>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
   }
 
-  create(usuario: Partial<Usuario>): Observable<Usuario> {
-    return this.http.post<Usuario>(this.apiUrl, usuario, { headers: this.getHeaders() });
-  }
+ create(usuario: CreateUsuario): Observable<Usuario> {
+  return this.http.post<Usuario>(this.apiUrl, usuario, { headers: this.getHeaders() });
+}
+
 
   update(id: number, usuario: Partial<Usuario>): Observable<Usuario> {
     return this.http.put<Usuario>(`${this.apiUrl}/${id}`, usuario, { headers: this.getHeaders() });

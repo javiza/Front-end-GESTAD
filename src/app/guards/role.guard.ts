@@ -3,7 +3,7 @@ import { CanActivate, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { jwtDecode } from 'jwt-decode';
 
-interface JwtPayload {
+interface CustomJwtPayload {
   sub: string;
   email: string;
   rol: 'administrador' | 'usuario';
@@ -25,7 +25,8 @@ export class RoleGuard implements CanActivate {
     }
 
     try {
-      const decoded: JwtPayload = jwtDecode<JwtPayload>(token);
+      // 👇 Ahora sí, usamos la función directamente
+      const decoded = jwtDecode<CustomJwtPayload>(token);
 
       if (!expectedRoles.includes(decoded.rol)) {
         this.router.navigate(['/home']);

@@ -1,0 +1,55 @@
+<h2>Gestión de unidades clínicas</h2>
+
+<!-- contenedor en dos columnas -->
+<div class="container">
+  <!-- Columna izquierda: formulario -->
+  <div class="formulario">
+    <form (ngSubmit)="ingresarUnidad()">
+      <ion-item>
+        <ion-label position="floating">Nombre Unidad</ion-label>
+        <ion-input [(ngModel)]="nombre_unidad" name="nombre_unidad" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Anexo</ion-label>
+        <ion-input [(ngModel)]="anexo" name="anexo" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Nombre Encargado</ion-label>
+        <ion-input [(ngModel)]="nombre_encargado" name="nombre_encargado" required></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" type="submit" color="primary">
+        {{ id ? 'Actualizar' : 'Ingresar' }}
+      </ion-button>
+    </form>
+  </div>
+
+  <!-- Columna derecha: lista -->
+  <div class="lista">
+    <h3>Lista de unidades clínicas</h3>
+
+    <ion-list *ngIf="unidades.length > 0">
+      <ion-item *ngFor="let unidad of unidades">
+        <ion-label>
+          <h2>{{ unidad.nombre_unidad }}</h2>
+          <p>
+            Anexo: {{ unidad.anexo }} |
+            Encargado: {{ unidad.nombre_encargado }}
+          </p>
+        </ion-label>
+        <ion-button fill="clear" (click)="editarUnidad(unidad)">
+          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear" color="danger" (click)="eliminarUnidad(unidad)">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+
+    <p *ngIf="unidades.length === 0">No hay unidades clínicas registradas.</p>
+  </div>
+</div>
+
+<div style="height: 50px;"></div>

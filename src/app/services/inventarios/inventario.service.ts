@@ -51,4 +51,5 @@ export class InventarioService {
     headers: this.getHeaders()
   });
 }
+
 }
