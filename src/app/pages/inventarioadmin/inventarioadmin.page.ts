@@ -49,20 +49,25 @@ export class InventarioadminPage implements OnInit, OnDestroy {
     this.routerSub = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         const url = event.urlAfterRedirects;
-        if (url.includes('administrador')) this.activeSegment = 'administrador';
-
-        else if (url.includes('inventarioadmin')) this.activeSegment = 'inventarioadmin';
-        else if (url.includes('home')) this.activeSegment = 'home';
+        if (url.includes('administrador')) {
+          this.activeSegment = 'administrador';
+        } else if (url.includes('inventarioadmin')) {
+                 this.activeSegment = 'inventarioadmin';
+               } else if (url.includes('home')) {
+                                      this.activeSegment = 'home';
+                                    }
       }
     });
   }
 
   ngOnDestroy(): void {
-    if (this.routerSub) this.routerSub.unsubscribe();
+    if (this.routerSub) {
+      this.routerSub.unsubscribe();
+    }
   }
 
   segmentChanged(event: any) {
-    const value = event.detail.value;
+    const {value} = event.detail;
     this.navCtrl.navigateForward('/' + value);
   }
 

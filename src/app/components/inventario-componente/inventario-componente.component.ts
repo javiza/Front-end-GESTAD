@@ -36,13 +36,13 @@ private agruparPrendas(prendas: Prenda[]): Prenda[] {
 
   for (const prenda of prendas) {
     if (!map.has(prenda.nombre)) {
-      // Guardamos la prenda con sus inventarios agrupados
+      // Guarda la prenda con sus inventarios agrupados
       map.set(prenda.nombre, {
         ...prenda,
         inventarios: this.agruparInventarios(prenda.inventarios)
       });
     } else {
-      // Ya existe → fusionamos inventarios
+     
       const existente = map.get(prenda.nombre)!;
       const nuevos = this.agruparInventarios(prenda.inventarios);
 
@@ -65,7 +65,7 @@ private agruparPrendas(prendas: Prenda[]): Prenda[] {
   return Array.from(map.values());
 }
 
-// 🔥 Nueva función para agrupar inventarios de una prenda
+//  Nueva función para agrupar inventarios de una prenda
 private agruparInventarios(inventarios: Inventario[]): Inventario[] {
   const map = new Map<string, Inventario>();
 

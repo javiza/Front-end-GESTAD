@@ -15,7 +15,7 @@ export interface Movimiento {
   // Nuevos campos
   desde_tipo?: 'roperia' | 'lavanderia' | 'reproceso' | 'unidad' | 'baja';
   hacia_tipo?: 'roperia' | 'lavanderia' | 'reproceso' | 'unidad' | 'baja';
-  desde_unidad?: { id_unidad: number; nombre_unidad: string };  // 👈 Agregado
+  desde_unidad?: { id_unidad: number; nombre_unidad: string };  
   hacia_unidad?: { id_unidad: number; nombre_unidad: string };
 
   // Relaciones
@@ -24,8 +24,6 @@ export interface Movimiento {
   reproceso?: { id_reproceso: number; descripcion: string };
   baja?: { id_baja: number; motivo: string };
 }
-
-
 
 export interface PaginacionResponse<T> {
   data: T[];

@@ -9,8 +9,8 @@ export interface Prenda {
   nombre: string;
   detalle?: string;
   peso?: number;
-  cantidad?: number;      // viene de inventario
-  fechaIngreso?: string;  // viene de inventario
+  cantidad?: number;      
+  fechaIngreso?: string;  
 }
 
 @Injectable({
@@ -29,7 +29,7 @@ export class PrendaService {
   }
 
   // Obtener todas las prendas y mapear la fecha
-// prenda.service.ts
+
 findAll(): Observable<Prenda[]> {
   return this.http.get<any[]>(this.apiUrl, { headers: this.getHeaders() }).pipe(
     map((data) =>
@@ -69,7 +69,7 @@ createWithMovimiento(prenda: Partial<Prenda>, id_usuario: number): Observable<Pr
 update(id: number, prenda: Partial<Prenda>): Observable<Prenda> {
   return this.http.put<any>(`${this.apiUrl}/${id}`, prenda, { headers: this.getHeaders() }).pipe(
     map((p) => {
-      const inv = p.inventarios?.[p.inventarios.length - 1]; // 👈 último inventario actualizado
+      const inv = p.inventarios?.[p.inventarios.length - 1]; 
       return {
         id_prenda: p.id_prenda,
         nombre: p.nombre,
@@ -86,7 +86,6 @@ update(id: number, prenda: Partial<Prenda>): Observable<Prenda> {
 remove(id: number): Observable<void> {
   return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
 }
-// Crear prenda con movimiento inicial en ropería   // Crear prenda sin enviar fecha (la asigna backend)
 
 
 

@@ -51,7 +51,7 @@ export class InventariosPage implements OnInit, OnDestroy {
     // nicializar activeSegment según la URL actual
     this.setActiveSegment(this.router.url);
 
-    // Suscripción a cambios de navegación
+    
     this.routerSub = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.setActiveSegment(event.urlAfterRedirects);
@@ -67,13 +67,18 @@ export class InventariosPage implements OnInit, OnDestroy {
 
   //  Método central para determinar el segmento
   private setActiveSegment(url: string) {
-    if (url.includes('ingresos')) this.activeSegment = 'ingresos';
-    else if (url.includes('movimientos')) this.activeSegment = 'movimientos';
-    else if (url.includes('inventarios')) this.activeSegment = 'inventarios';
-    else this.activeSegment = 'home';
+    if (url.includes('ingresos')) {
+      this.activeSegment = 'ingresos';
+    } else if (url.includes('movimientos')) {
+             this.activeSegment = 'movimientos';
+           } else if (url.includes('inventarios')) {
+                    this.activeSegment = 'inventarios';
+                  } else {
+                    this.activeSegment = 'home';
+                  }
   }
 
-  // Usamos navigateRoot en vez de navigateForward
+  // Usamos navigateRoot 
   segmentChanged(event: any) {
     const { value } = event.detail;
     console.log('Segment cambiado a:', value);

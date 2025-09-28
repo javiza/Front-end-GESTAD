@@ -111,7 +111,7 @@ export class MovimientosComponenteComponent implements OnInit {
 
     const { nombre_prenda, cantidad, desde_tipo } = this.movimientoForm.value;
 
-    // 👉 verificar stock en origen antes de enviar al backend
+   
     this.inventarioService.buscarPorNombre(nombre_prenda).subscribe({
       next: (resp) => {
         // buscar el stock en el origen

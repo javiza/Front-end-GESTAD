@@ -49,7 +49,7 @@ export class InicioSesionComponent implements OnInit {
   showPassword = false;
 
   constructor(private authService: AuthService, private router: Router) {
-    // 👇 Registramos los íconos para que funcionen en la plantilla
+    //íconos para que funcionen en la plantilla
     addIcons({
       mailOutline,
       lockClosedOutline,

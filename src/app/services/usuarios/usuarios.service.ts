@@ -10,8 +10,7 @@ export interface Usuario {
   rut: string;                // agregar rut
   email: string;
   password: string;
-  rol: 'administrador' | 'usuario';
-  // activo?: boolean;           // opcional porque backend lo maneja
+  rol: 'administrador' | 'usuario';   
   fecha_creacion?: string;  
 }
 export interface CreateUsuario {

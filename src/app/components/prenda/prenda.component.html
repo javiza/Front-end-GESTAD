@@ -1,57 +1,61 @@
 <h2>Ingreso de prenda</h2>
 
-<form (ngSubmit)="ingresarPrenda()">
-  <ion-item>
-  <ion-label position="floating">Nombre Prenda</ion-label>
-  <ion-input 
-    [(ngModel)]="nombre_prenda" 
-    name="nombre_prenda" 
-    required
-    (ionInput)="nombre_prenda = nombre_prenda.toLowerCase()">
-  </ion-input>
-</ion-item>
+<div class="contenedor">
+  
+  <form (ngSubmit)="ingresarPrenda()" class="formulario">
+    <ion-item>
+      <ion-label position="floating">Nombre Prenda</ion-label>
+      <ion-input 
+        [(ngModel)]="nombre_prenda" 
+        name="nombre_prenda" 
+        required
+        (ionInput)="nombre_prenda = nombre_prenda.toLowerCase()">
+      </ion-input>
+    </ion-item>
 
-  <ion-item>
-    <ion-label position="floating">Cantidad</ion-label>
-    <ion-input type="number" [(ngModel)]="cantidad" name="cantidad" required></ion-input>
-  </ion-item>
+    <ion-item>
+      <ion-label position="floating">Cantidad</ion-label>
+      <ion-input type="number" [(ngModel)]="cantidad" name="cantidad" required></ion-input>
+    </ion-item>
 
-  <ion-item>
-    <ion-label position="floating">Detalle</ion-label>
-    <ion-textarea [(ngModel)]="detalle" name="detalle"></ion-textarea>
-  </ion-item>
+    <ion-item>
+      <ion-label position="floating">Detalle</ion-label>
+      <ion-textarea [(ngModel)]="detalle" name="detalle"></ion-textarea>
+    </ion-item>
 
-  <ion-item>
-  <ion-label position="floating">Peso (gramos)</ion-label>
-  <ion-input type="number" [(ngModel)]="peso" name="peso" required></ion-input>
-</ion-item>
+    <ion-item>
+      <ion-label position="floating">Peso (gramos)</ion-label>
+      <ion-input type="number" [(ngModel)]="peso" name="peso" required></ion-input>
+    </ion-item>
 
-
-  <ion-button expand="block" type="submit" color="primary">
-    {{ editandoId ? 'Actualizar' : 'Ingresar' }}
-  </ion-button>
-</form>
-
-<h3>Lista de ropa ingresada</h3>
-<ion-list *ngIf="prendas.length > 0">
-  <ion-item *ngFor="let prenda of prendas">
-    <ion-label>
-      <h2>{{ prenda.nombre }}</h2>
-      <p>
-        Peso: {{ prenda.peso }} kg |
-        Cantidad: {{ prenda.cantidad }} |
-        Detalle: {{ prenda.detalle }} |
-        Última actualización: {{ prenda.fechaIngreso | date:'short' }}
-      </p>
-    </ion-label>
-    <ion-button fill="clear" (click)="editarPrenda(prenda)">
-      <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+    <ion-button expand="block" type="submit" color="primary">
+      {{ editandoId ? 'Actualizar' : 'Ingresar' }}
     </ion-button>
-    <ion-button fill="clear" color="danger" (click)="eliminarPrenda(prenda)">
-      <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-    </ion-button>
-  </ion-item>
-</ion-list>
+  </form>
 
-<p *ngIf="prendas.length === 0">No hay prendas registradas.</p>
-<div style="height: 100px;"></div>
+  
+  <div class="lista">
+    <h3>Lista de ropa ingresada</h3>
+    <ion-list *ngIf="prendas.length > 0">
+      <ion-item *ngFor="let prenda of prendas">
+        <ion-label>
+          <h2>{{ prenda.nombre }}</h2>
+          <p>
+            Peso: {{ prenda.peso }} kg |
+            Cantidad: {{ prenda.cantidad }} |
+            Detalle: {{ prenda.detalle }} |
+            Última actualización: {{ prenda.fechaIngreso | date:'short' }}
+          </p>
+        </ion-label>
+        <ion-button fill="clear" (click)="editarPrenda(prenda)">
+          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear" color="danger" (click)="eliminarPrenda(prenda)">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+
+    <p *ngIf="prendas.length === 0">No hay prendas registradas.</p>
+  </div>
+</div>

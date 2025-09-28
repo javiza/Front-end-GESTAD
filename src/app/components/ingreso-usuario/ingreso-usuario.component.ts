@@ -11,17 +11,31 @@ import {
   IonTextarea,
   IonSelect,
   IonSelectOption,
-  IonList, IonCol, IonRow } from '@ionic/angular/standalone';
-import { UsuariosService, Usuario, CreateUsuario } from 'src/app/services/usuarios/usuarios.service';
+  IonList,
+  IonCol,
+  IonRow,
+} from '@ionic/angular/standalone';
+import {
+  UsuariosService,
+  Usuario,
+  CreateUsuario,
+} from 'src/app/services/usuarios/usuarios.service';
 import { addIcons } from 'ionicons';
-import { createOutline, trashOutline } from 'ionicons/icons';
+import {
+  createOutline,
+  trashOutline,
+  eyeOutline,
+  eyeOffOutline,
+} from 'ionicons/icons';
 
 @Component({
   selector: 'app-ingreso-usuario',
   templateUrl: './ingreso-usuario.component.html',
   styleUrls: ['./ingreso-usuario.component.scss'],
   standalone: true,
-  imports: [IonRow, IonCol, 
+  imports: [
+    IonRow,
+    IonCol,
     FormsModule,
     CommonModule,
     IonContent,
@@ -47,20 +61,24 @@ export class IngresoUsuarioComponent implements OnInit {
   email = '';
   password = '';
   rol: 'administrador' | 'usuario' = 'usuario';
+  showPassword = false;
 
   constructor(private usuariosService: UsuariosService) {
-    addIcons({ createOutline, trashOutline });
+    addIcons({ createOutline, trashOutline, eyeOutline, eyeOffOutline });
   }
 
   ngOnInit() {
     this.cargarUsuarios();
 
-  // log para revisar quién está logueado
-  const user = localStorage.getItem('user');
-  console.log('USUARIO ACTUAL:', user ? JSON.parse(user) : 'No hay sesión');
+    // log para revisar quién está logueado
+    const user = localStorage.getItem('user');
+    console.log('USUARIO ACTUAL:', user ? JSON.parse(user) : 'No hay sesión');
 
-  const token = localStorage.getItem('token');
-  console.log('TOKEN ACTUAL:', token ? token.substring(0, 30) + '...' : 'No hay token');
+    const token = localStorage.getItem('token');
+    console.log(
+      'TOKEN ACTUAL:',
+      token ? token.substring(0, 30) + '...' : 'No hay token'
+    );
   }
 
   cargarUsuarios() {
@@ -69,54 +87,55 @@ export class IngresoUsuarioComponent implements OnInit {
       error: (err) => console.error('Error al cargar usuarios:', err),
     });
   }
-
-  ingresarUsuario() {
-  if (!this.validarRut(this.rut)) {
-    alert('RUT inválido. Verifica el formato.');
-    return;
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
-
-  // DTO para crear/actualizar
-  const payload: CreateUsuario = {
-    nombre_usuario: this.nombre_usuario,
-    email: this.email,
-    rol: this.rol,
-    rut: this.rut.replace(/\./g, ''),
-    password: this.password // requerido en creación
-  };
-
-  if (this.id) {
-    // Actualizar usuario
-    const updatePayload = { ...payload };
-    if (!this.password) {
-      // Si no se cambia password, lo quitamos
-      delete (updatePayload as any).password;
-    }
-
-    this.usuariosService.update(this.id, updatePayload).subscribe({
-      next: () => {
-        this.limpiarFormulario();
-        this.cargarUsuarios();
-      },
-      error: (err) => console.error('Error al actualizar usuario:', err),
-    });
-  } else {
-    // Crear usuario → requiere password
-    if (!this.password) {
-      alert('Debes ingresar una contraseña para el nuevo usuario.');
+  ingresarUsuario() {
+    if (!this.validarRut(this.rut)) {
+      alert('RUT inválido. Verifica el formato.');
       return;
     }
 
-    this.usuariosService.create(payload).subscribe({
-      next: () => {
-        this.limpiarFormulario();
-        this.cargarUsuarios();
-      },
-      error: (err) => console.error('Error al crear usuario:', err),
-    });
-  }
-}
+    // DTO para crear/actualizar
+    const payload: CreateUsuario = {
+      nombre_usuario: this.nombre_usuario,
+      email: this.email,
+      rol: this.rol,
+      rut: this.rut.replace(/\./g, ''),
+      password: this.password, // requerido en creación
+    };
 
+    if (this.id) {
+      // Actualizar usuario
+      const updatePayload = { ...payload };
+      if (!this.password) {
+        // Si no se cambia password, lo quitamos
+        delete (updatePayload as any).password;
+      }
+
+      this.usuariosService.update(this.id, updatePayload).subscribe({
+        next: () => {
+          this.limpiarFormulario();
+          this.cargarUsuarios();
+        },
+        error: (err) => console.error('Error al actualizar usuario:', err),
+      });
+    } else {
+      // Crear usuario → requiere password
+      if (!this.password) {
+        alert('Debes ingresar una contraseña para el nuevo usuario.');
+        return;
+      }
+
+      this.usuariosService.create(payload).subscribe({
+        next: () => {
+          this.limpiarFormulario();
+          this.cargarUsuarios();
+        },
+        error: (err) => console.error('Error al crear usuario:', err),
+      });
+    }
+  }
 
   editarUsuario(usuario: Usuario) {
     this.id = usuario.id;
@@ -147,7 +166,9 @@ export class IngresoUsuarioComponent implements OnInit {
   }
 
   validarRut(rut: string): boolean {
-    if (!rut) return false;
+    if (!rut) {
+      return false;
+    }
 
     // limpiar rut (quitar puntos y guion)
     const rutLimpio = rut.replace(/\./g, '').replace(/-/g, '').toUpperCase();
@@ -156,7 +177,9 @@ export class IngresoUsuarioComponent implements OnInit {
     const cuerpo = rutLimpio.slice(0, -1);
     let dv = rutLimpio.slice(-1);
 
-    if (!/^\d+$/.test(cuerpo)) return false;
+    if (!/^\d+$/.test(cuerpo)) {
+      return false;
+    }
 
     // calcular dv esperado
     let suma = 0;
@@ -168,7 +191,8 @@ export class IngresoUsuarioComponent implements OnInit {
     }
 
     const dvEsperado = 11 - (suma % 11);
-    let dvFinal = dvEsperado === 11 ? '0' : dvEsperado === 10 ? 'K' : dvEsperado.toString();
+    let dvFinal =
+      dvEsperado === 11 ? '0' : dvEsperado === 10 ? 'K' : dvEsperado.toString();
 
     return dv === dvFinal;
   }
@@ -179,7 +203,9 @@ export class IngresoUsuarioComponent implements OnInit {
   }
 
   formatearRut(rut: string): string {
-    if (!rut) return '';
+    if (!rut) {
+      return '';
+    }
 
     let limpio = rut.replace(/[^0-9kK]/g, '').toUpperCase();
     let cuerpo = limpio.slice(0, -1);
